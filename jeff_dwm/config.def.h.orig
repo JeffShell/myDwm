@@ -21,18 +21,10 @@ static const char col_nordfgSel[]		= "#434c5e";
 static const char col_nordbgSel[]		= "#88c0d0";
 static const char col_nordborderSel[]		= "#88c0d0";
 
-static const unsigned int baralpha = 0xd0;
-static const unsigned int borderalpha = OPAQUE;
-
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_nordfg, col_nordbg, col_nordborder },
 	[SchemeSel]  = { col_nordfgSel, col_nordbgSel,  col_nordborderSel  },
-};
-static const unsigned int alphas[][3]      = {
-	/*               fg      bg        border     */
-	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */

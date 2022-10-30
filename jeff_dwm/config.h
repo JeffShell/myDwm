@@ -21,10 +21,18 @@ static const char col_nordfgSel[]		= "#434c5e";
 static const char col_nordbgSel[]		= "#88c0d0";
 static const char col_nordborderSel[]		= "#88c0d0";
 
+static const unsigned int baralpha = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_nordfg, col_nordbg, col_nordborder },
 	[SchemeSel]  = { col_nordfgSel, col_nordbgSel,  col_nordborderSel  },
+};
+static const unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
@@ -72,9 +80,10 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	/*以下音量调节得安装 amixer 才能使用*/
 	{ MODKEY,                       XK_F1,      spawn,          SHCMD("amixer sset Master 5\%\- unmute") }, /* 音量减少5% */
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
-	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Mater toggle") }, /* 音量开启关闭静音 */
+	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Master toggle") }, /* 音量开启关闭静音 */
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
