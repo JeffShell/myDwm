@@ -1,39 +1,32 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Sauce Code Pro Nerd Font Mono:size=14" };
-static const char dmenufont[]       = "Sauce Code Pro Nerd Font Mono:size=14";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
 
-static const char col_nordfg[]		= "#434c5e";
-static const char col_nordbg[]		= "#d8dee9";
-static const char col_nordborder[]		= "#d8dee9";
+static int showsystray                   = 1;         /* 是否显示托盘栏 */
+static const int newclientathead         = 0;         /* 定义新窗口在栈顶还是栈底 */
+static const unsigned int borderpx       = 2;         /* 窗口边框大小 */
+static const unsigned int systraypinning = 1;         /* 托盘跟随的显示器 0代表不指定显示器 */
+static const unsigned int systrayspacing = 1;         /* 托盘间距 */
+static int gappi                         = 12;        /* 窗口与窗口 缝隙大小 */
+static int gappo                         = 12;        /* 窗口与边缘 缝隙大小 */
+static const int _gappo                  = 12;        /* 窗口与窗口 缝隙大小 不可变 用于恢复时的默认值 */
+static const int _gappi                  = 12;        /* 窗口与边缘 缝隙大小 不可变 用于恢复时的默认值 */
+static const int overviewgappi           = 24;        /* overview时 窗口与边缘 缝隙大小 */
+static const int overviewgappo           = 60;        /* overview时 窗口与窗口 缝隙大小 */
+static const int showbar                 = 1;         /* 是否显示状态栏 */
+static const int topbar                  = 1;         /* 指定状态栏位置 0底部 1顶部 */
+static const float mfact                 = 0.6;       /* 主工作区 大小比例 */
+static const int   nmaster               = 1;         /* 主工作区 窗口数量 */
+static const unsigned int snap           = 10;        /* 边缘依附宽度 */
+static const unsigned int baralpha       = 0xc0;      /* 状态栏透明度 */
+static const unsigned int borderalpha    = 0xdd;      /* 边框透明度 */
+static const char *overviewtag = "OVERVIEW";
+static const Layout overviewlayout = { "",  overview };
+static const char *fonts[]               = { "JetBrainsMono Nerd Font:style=medium:size=13", "monospace:size=13" };
+static const char *colors[][3]           = { [SchemeNorm] = { "#bbbbbb", "#333333", "#444444" }, [SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" }, [SchemeHid] = { "#dddddd", NULL, NULL }, [SchemeSystray] = { "#7799AA", "#7799AA", "#7799AA" }, [SchemeUnderline] = { "#7799AA", "#7799AA", "#7799AA" } };
+static const unsigned int alphas[][3]    = { [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, [SchemeSel] = { OPAQUE, baralpha, borderalpha } };
 
-static const char col_nordfgSel[]		= "#434c5e";
-static const char col_nordbgSel[]		= "#88c0d0";
-static const char col_nordborderSel[]		= "#88c0d0";
 
-static const unsigned int baralpha = 0xd0;
-static const unsigned int borderalpha = OPAQUE;
-
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_nordfg, col_nordbg, col_nordborder },
-	[SchemeSel]  = { col_nordfgSel, col_nordbgSel,  col_nordborderSel  },
-};
-static const unsigned int alphas[][3]      = {
-	/*               fg      bg        border     */
-	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
-};
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -49,16 +42,11 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "平铺",      tile },    /* first entry is default */
 	{ "浮动",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
 };
 
 /* key definitions */
@@ -67,23 +55,22 @@ static const Layout layouts[] = {
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,       spawn,          SHCMD("rofi -show run") },  
 	/*以下音量调节得安装 amixer 才能使用*/
 	{ MODKEY,                       XK_F1,      spawn,          SHCMD("amixer sset Master 5\%\- unmute") }, /* 音量减少5% */
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
-	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Master toggle") }, /* 音量开启关闭静音 */
+	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Master toggle") }, /* 音量开启静音 */
+	{ MODKEY,                       XK_F4,      spawn,          SHCMD("amixer sset Speaker unmute") }, /* 音量关闭静音 */
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -132,6 +119,5 @@ static const Button buttons[] = {
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
