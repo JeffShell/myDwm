@@ -64,13 +64,13 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,       spawn,          SHCMD("rofi -show run") },  
-	/*以下音量调节得安装 amixer 才能使用*/
+	/*以下关于声音设置音量调节得安装 amixer 才能使用*/
 	{ MODKEY,                       XK_F1,      spawn,          SHCMD("amixer sset Master 5\%\- unmute") }, /* 音量减少5% */
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
-	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Master toggle") }, /* 音量开启静音 */
-	{ MODKEY,                       XK_F4,      spawn,          SHCMD("amixer sset Speaker unmute") }, /* 音量关闭静音 */
-	{ MODKEY,                       XK_F10,      spawn,          SHCMD("pcmanfm") }, /* 文件管理器打开 */
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer set Master toggle && amixer set Headphone unmute && amixer set Speaker unmute") }, /* 音量开启关闭静音 */
+	{ MODKEY,                       XK_F4,      spawn,          SHCMD("alsamixer") },	/* 系统声音设置 */
+	{ MODKEY,                       XK_F10,     spawn,         	SHCMD("pcmanfm") }, 	/* 文件管理器打开 */
+	{ MODKEY|ShiftMask,             XK_Return, 	spawn,          {.v = termcmd } },
 	// { MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
