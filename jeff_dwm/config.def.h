@@ -41,12 +41,10 @@ static const Rule rules[] = {
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
-/* layout(s) */
-
+/* 自定义布局 */
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "平铺",      tile },    /* first entry is default */
-	{ "浮动",      NULL },    /* no layout function means floating behavior */
+    { "﬿",  tile },         /* 主次栈 */
+    { "﩯",  magicgrid },    /* 网格 */
 };
 
 /* key definitions */
@@ -71,8 +69,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
 	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer sset Master toggle") }, /* 音量开启静音 */
 	{ MODKEY,                       XK_F4,      spawn,          SHCMD("amixer sset Speaker unmute") }, /* 音量关闭静音 */
+	{ MODKEY,                       XK_F10,      spawn,          SHCMD("pcmanfm") }, /* 文件管理器打开 */
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	// { MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -81,12 +80,14 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },                   /* super shift enter  |  将当前聚焦窗口置为主窗口 */
+    { MODKEY,              			XK_t,      togglefloating, {0} },                     /* super t            |  开启/关闭 聚焦目标的float模式 */
+    { MODKEY|ShiftMask,    			XK_t,      toggleallfloating,{0} },                     /* super shift t      |  开启/关闭 全部目标的float模式 */
+    { MODKEY,              			XK_f,      fullscreen,     {0} },                     /* super f            |  开启/关闭 全屏 */
+    { MODKEY|ShiftMask,    			XK_f,      togglebar,     {0} },                     /* super shift f      |  开启/关闭 状态栏 */
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	// { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
