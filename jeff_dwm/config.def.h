@@ -63,6 +63,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_esc,     spawn,          SHCMD("slock") },  
 	{ MODKEY,                       XK_p,       spawn,          SHCMD("rofi -show run") },  
 	/*以下关于声音设置音量调节得安装 amixer 才能使用*/
 	{ MODKEY,                       XK_F1,      spawn,          SHCMD("amixer sset Master 5\%\- unmute") }, /* 音量减少5% */
