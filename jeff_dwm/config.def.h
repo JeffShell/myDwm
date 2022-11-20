@@ -70,7 +70,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
 	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer set Master toggle && amixer set Headphone unmute && amixer set Speaker unmute") }, /* 音量开启关闭静音 */
 	// { MODKEY,                       XK_F4,      spawn,          SHCMD("alsamixer") },	/* 系统声音设置 */
-	{ MODKEY,                       XK_F5,      spawn,         	SHCMD("feh --bg-fill --randomiz ~/MyImage/*") }, 	/* 刷新壁纸 */
+	{ MODKEY,                       XK_F4,      spawn,          SHCMD("deepin-screenshot") },	/* 截图功能 */
+	{ MODKEY,                       XK_F5,      spawn,         	SHCMD("sh ~/myDwm/jeff_dwm/script/wallpic.sh") }, 	/* 刷新壁纸 */
 	{ MODKEY,                       XK_F10,     spawn,         	SHCMD("pcmanfm") }, 	/* 文件管理器打开 */
 	{ MODKEY|ShiftMask,             XK_Return, 	spawn,          {.v = termcmd } },
 	// { MODKEY,                       XK_b,      togglebar,      {0} },
