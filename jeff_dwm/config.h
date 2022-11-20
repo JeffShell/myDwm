@@ -63,14 +63,15 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_esc,     spawn,          SHCMD("slock") },  
+	{ MODKEY,                       XK_F12,     spawn,          SHCMD("slock") },  
 	{ MODKEY,                       XK_p,       spawn,          SHCMD("rofi -show run") },  
 	/*以下关于声音设置音量调节得安装 amixer 才能使用*/
 	{ MODKEY,                       XK_F1,      spawn,          SHCMD("amixer sset Master 5\%\- unmute") }, /* 音量减少5% */
 	{ MODKEY,                       XK_F2,      spawn,          SHCMD("amixer sset Master 5\%\+ unmute") }, /* 音量增加5% */
 	{ MODKEY,                       XK_F3,      spawn,          SHCMD("amixer set Master toggle && amixer set Headphone unmute && amixer set Speaker unmute") }, /* 音量开启关闭静音 */
 	// { MODKEY,                       XK_F4,      spawn,          SHCMD("alsamixer") },	/* 系统声音设置 */
-	{ MODKEY,                       XK_F5,      spawn,         	SHCMD("feh --bg-fill --randomiz ~/MyImage/*") }, 	/* 刷新壁纸 */
+	{ MODKEY,                       XK_F4,      spawn,          SHCMD("deepin-screenshot") },	/* 截图功能 */
+	{ MODKEY,                       XK_F5,      spawn,         	SHCMD("sh ~/myDwm/jeff_dwm/script/handWallpic.sh") }, 	/* 刷新壁纸 */
 	{ MODKEY,                       XK_F10,     spawn,         	SHCMD("pcmanfm") }, 	/* 文件管理器打开 */
 	{ MODKEY|ShiftMask,             XK_Return, 	spawn,          {.v = termcmd } },
 	// { MODKEY,                       XK_b,      togglebar,      {0} },
